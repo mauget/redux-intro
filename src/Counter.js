@@ -1,39 +1,36 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import {connect} from 'react-redux';
+import {ACTION_DECREMENT, ACTION_INCREMENT} from "./actions";
+import {store} from "./index";
+import {initialState} from "./reducer";
 
-// class Counter extends React.Component {
-//   increment = () => {
-//     this.props.dispatch({ type: 'INCREMENT' });
-//   }
-//
-//   decrement = () => {
-//     this.props.dispatch({ type: 'DECREMENT' });
-//   }
-//
-//   render() {
-//     return (
-//       <div>
-//         <h2>Counter</h2>
-//         <div>
-//           <button onClick={this.decrement}>-</button>
-//           <span>{this.props.count}</span>
-//           <button onClick={this.increment}>+</button>
-//         </div>
-//       </div>
-//     )
-//   }
-// }
+// Monitor to learn about changed Redux state
+let oldValue = initialState;
+const monitorStore = () => store.subscribe(() => {
+    const value = store.getState();
+    if (value !== oldValue) {
+        console.log('store', store.getState());
+        oldValue = value;
+    }
+});
 
 function Counter(props) {
     const {dispatch, count} = {...props};
+    console.log('props', props);
 
-    const increment = () => {
-        dispatch({type: 'INCREMENT'});
-    }
+    monitorStore();
 
-    const decrement = () => {
-        dispatch({type: 'DECREMENT'});
-    }
+    const increment = () => dispatch(ACTION_INCREMENT);
+
+    const decrement = () => dispatch(ACTION_DECREMENT);
+
+    // Dispatch an unknown-to-reducer action
+    // It will not cause a state update  nor will be log a rendrer count increase
+    const badAction = () => dispatch({type: 'ACTION_WITH_NO_REDUCER'});
+
+    const renderCount = useRef(0);
+    renderCount.current = renderCount.current + 1;
+    console.log(`render count ${renderCount.current}`);
 
     return (
         <div>
@@ -42,15 +39,13 @@ function Counter(props) {
                 <button onClick={decrement}>-</button>
                 <span>{count}</span>
                 <button onClick={increment}>+</button>
+                <br/>
+                <button onClick={badAction}>Unknown Actiopn</button>
             </div>
         </div>
     );
 }
 
-function mapStateToProps(state) {
-    return {
-        count: state.count
-    };
-}
+const mapStateToProps = (state) => ({count: state.count});
 
 export default connect(mapStateToProps)(Counter);
