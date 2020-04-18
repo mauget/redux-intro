@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 
 const initialState = {
-  count: 0
+  count: 42
 };
 
 function reducer(state = initialState, action) {
