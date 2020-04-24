@@ -1,4 +1,4 @@
-# Redux Demo
+# Redux Intro
 
 We forked and extended this application from a Redux Intro 
 mentioned in the following third-party blog about learning
