@@ -15,5 +15,4 @@ function Monitor(props) {
 }
 
 const mapStateToProps = (state) => ({count: state.count});
-
 export default connect(mapStateToProps)(Monitor);
