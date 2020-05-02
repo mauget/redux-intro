@@ -6,4 +6,6 @@ now Redux works:
 
 [https://daveceddia.com/how-does-redux-work/](https://daveceddia.com/how-does-redux-work/)
 
-To run it, issue `yarn start` from the project root.
++ To run it, issue `yarn start` from the project root.
+
++ To unit-test it, issue `yarn test` from the project root.
